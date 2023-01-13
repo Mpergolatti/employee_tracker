@@ -1,12 +1,36 @@
-INSERT INTO employees (first_name, last_name)
+INSERT INTO department
+  (name)
+
 VALUES
-  ('Ronald', 'Firbank'),
-  ('Virginia', 'Woolf'),
-  ('Piers', 'Gaveston'),
-  ('Charles', 'LeRoi'),
-  ('Katherine', 'Mansfield'),
-  ('Dora', 'Carrington'),
-  ('Edward', 'Bellamy'),
-  ('Montague', 'Summers'),
-  ('Octavia', 'Butler'),
-  ('Unica', 'Zurn');
+  ('Engineer'),
+  ('Management'),
+  ('Warehouse'),
+  ('Sales'),
+  ('CEO'),
+  ('Finance')
+
+  -- puts employees into table
+
+INSERT INTO job
+  (title, salary, department_id)
+
+VALUES
+  ('Executive Officer' 250000, 1),
+  ('Manager' 175000, 2),
+  ('Software Engineer', 125000, 3),
+  ('Accountant', 90000, 4),
+  ('Salesman', 75000, 5),
+  ('Stocker' 40000, 6)
+
+  -- puts employee information into table
+
+INSERT INTO employee
+  (first_name, last_name, role_id, department_id)
+
+VALUES
+  ('Jaime', 'Buchanan', 1, 1),
+  ('Mike', 'Pergolatti', 3, 2),
+  ('Stella', 'Mae', 4, 3),
+  ('Paisley', 'Buchanan', 2, 4),
+  ('John', 'Thomas', 5, 5),
+  ('Alex', 'Woodard', 6, 6)
