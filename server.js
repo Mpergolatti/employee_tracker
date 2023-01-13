@@ -25,12 +25,14 @@ const db = mysql.createConnection(
 )
 
 var employee = function () {
-  inquirer.createPromptModule([{
+  inquirer.createPromptModule([
+    {
     type: 'list',
     name: 'prompt',
     message: 'Choose Option',
     choices: ['View All Departments', 'View All Jobs', 'View All Employees', 'Add A Department', 'Add A Job', 'Add An Employee', 'Update An Employee Job', 'Log Out']
-  }]). then((answers) => {
+    }
+]). then((answers) => {
     
     // Check the department table in the database
     if (answers.prompt === 'View All Departments') {
@@ -56,7 +58,95 @@ var employee = function () {
         console.table(result);
         employee()
       })
-    }
+
+    } else if (answers.prompt === 'Add A Department') {
+      inquirer.prompt([
+        {
+
+        // Add A Department
+        type: 'input',
+        name: 'department',
+        message: 'What is the name of the Department you would like to create?',
+          validate: departmentInput => {
+            if (departmentInput) {
+              return true;
+            } else {
+              console.log('Please Add A Department')
+              return false;
+            }
+          }
+        }
+    ]).then((answers) => {
+        db.query(`insert into department (name) values (?)`, [answers.department], (err, result) => {
+          if (err) throw err;
+          console.log(`Added ${answers.department} to the database.`)
+          employee();
+        })
+      })
+
+    } else if (answers.prompt === 'Add A Job') {
+      db.query(`select * from department`, (err, result) => {
+        if (err) throw err;
+
+        inquirer.prompt([
+          {
+
+          // Add A Job
+          type: 'input',
+          name: 'job', 
+          message: 'What is the name of the job?',
+            validate: jobInput => {
+              if (jobInput) {
+                return true;
+              } else {
+                console.log('Please Add A Role');
+                return false;
+              }
+            }
+          },
+          {
+            // Add A Salary
+            type: 'input',
+            name: 'salary',
+            message: 'What is the salary of this job?',
+              validate: salaryInput => {
+                if (salaryInput) {
+                  return true;
+                } else {
+                  console.log('Please Add A Salary')
+                  return false;
+                }
+              }
+          },
+          {
+            // Add employee to a department
+            type: 'list',
+            name: 'department',
+            message: 'Which department does the job belong too?',
+              choices: () => {
+                var array = [];
+                  for (var i = 0; i < result.length; i++) {
+                    array.push(result[i].name);
+                  }
+                  return array;
+              }
+          }
+      ]).then((answers) => {
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].name === answers.department) {
+            var department = result[i];
+          }
+        }
+        
+          db.query(`insert into job (title, salary, department_id) values (?, ?, ?)`, [answers.job, answers.salary, department.id], (err, result) => {
+            if (err) throw err
+            console.log(`Added ${answers.role} to the database.`)
+            employee();
+          })
+        })
+      })
+
+    } else if
   })
 }
 
