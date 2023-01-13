@@ -29,7 +29,7 @@ var employee = function () {
     type: 'list',
     name: 'prompt',
     message: 'Choose Option',
-    choices: ['View All Departments', 'View All Jobs', 'View All Employee', 'Add A Department', 'Add A Job', 'Add An Employee', 'Update An Employee Job', 'Log Out']
+    choices: ['View All Departments', 'View All Jobs', 'View All Employees', 'Add A Department', 'Add A Job', 'Add An Employee', 'Update An Employee Job', 'Log Out']
   }]). then((answers) => {
     
     // Check the department table in the database
@@ -40,8 +40,22 @@ var employee = function () {
         console.table(result)
         employee();
       })
+
     } else if (answers.prompt === 'View All Jobs') {
-      
+      db.query(`select * from job`, (err, result) => {
+        if (err) throw err;
+        console.log('Viewing All Jobs: ')
+        console.table(result);
+        employee();
+      })
+
+    } else if (answers.prompt === 'View All Employees') {
+      db.query(`select * from employee`, (err, result) => {
+        if (err) throw err;
+        console.log('Viewing All Employees: ')
+        console.table(result);
+        employee()
+      })
     }
   })
 }
