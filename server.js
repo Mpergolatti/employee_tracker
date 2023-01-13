@@ -146,7 +146,82 @@ var employee = function () {
         })
       })
 
-    } else if
+    } else if (answers.prompt === 'Add An Employee') {
+      db.query(`select * from employee, job`, (err, result) => {
+        if (err) throw err
+
+        inquirer.prompt([
+        {
+          // Employee First Name
+          type: 'input',
+          name: 'firstName',
+          message: 'Please Enter the First Name',
+            validate: firstNameInput => {
+              if (firstNameInput) {
+                return true;
+              } else {
+                console.log('Please Add the First Name of the Employee')
+                return false;
+              }
+            }
+        },
+        {
+          // Employee Last Name
+          type: 'input',
+          name: 'lastName',
+          message: 'Please Enter the Last Name',
+            validate: lastNameInput => {
+              if (lastNameInput) {
+                return true
+              } else {
+                console.log('Please Add the Last Name of the Employee')
+                return false;
+              }
+            }
+        },
+        {
+          // Add Employee Job
+          type: 'list',
+          name: 'job',
+          message: 'What is the employees job?',
+            choices: () => {
+              var array = [];
+              for ( var i = 0; i < result.length; i++ ) {
+                array.push(result[i].title);
+              }
+              var newArray = [...new Set(array)];
+              return newArray;
+            }
+        },
+        {
+          // Add the employee's Manager
+          type: 'input',
+          name: 'manager',
+          message: 'Who is the employees Manager?',
+            validate: managerInput => {
+              if (managerInput) {
+                return true;
+              } else {
+                console.log('Please add a manager')
+                return false;
+              }
+            }
+          }
+        ]).then((answers) => {
+          for (var i = 0; i < result.length; i++) {
+            if (result[i].title === answers.job) {
+              var job = result[i];
+            }
+          }
+
+          db.query(`insert into employee (first_name, last_name, role_id, manager_id) values (?, ?, ?, ?)`, [answers.firstName, answers.lastName, role.id, answers.manager.id], (err, result) => {
+            if (err) throw err
+              console.log(`Added ${answers.firstName} ${answers.lastName}, to the database`)
+              employee();
+          })
+        })
+      })
+    }
   })
 }
 
