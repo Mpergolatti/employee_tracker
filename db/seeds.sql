@@ -7,7 +7,7 @@ VALUES
   ('Warehouse'),
   ('Sales'),
   ('CEO'),
-  ('Finance')
+  ('Finance');
 
   -- puts employees into table
 
@@ -20,10 +20,10 @@ VALUES
   ('Software Engineer', 125000, 3),
   ('Accountant', 90000, 4),
   ('Salesman', 75000, 5),
-  ('Stocker', 40000, 6)
+  ('Stocker', 40000, 6);
 
 INSERT INTO employee
-  (first_name, last_name, job_id, department_id)
+  (first_name, last_name, job_id, manager_id)
 
 VALUES
   ('Jaime', 'Buchanan', 1, 1),
@@ -31,4 +31,4 @@ VALUES
   ('Stella', 'Mae', 4, 3),
   ('Paisley', 'Buchanan', 2, 4),
   ('John', 'Thomas', 5, 5),
-  ('Alex', 'Woodard', 6, 6)
+  ('Alex', 'Woodard', 6, 6);

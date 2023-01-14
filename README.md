@@ -17,7 +17,7 @@
   6. [Authors and acknowledgment](#authors%20and%20acknowledgment)
 ---
 ## About
- ### A mysql/node based project used to see, add and delete employees. It can also add jobs and delete jobs
+ ### A mysql/node based project used to see, add and delete employees. It can also add jobs
 ---
 ## Usage Info
   ### mysql2, inquirer, console.table packages
