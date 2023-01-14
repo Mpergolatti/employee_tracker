@@ -1,13 +1,13 @@
-const express = require('express')
+// const express = require('express')
 const mysql = require('mysql2')
-const inquirer = require ('inquirer')
+const inquirer = require('inquirer')
 
-const PORT = process.env.PORT || 3001;
-const app = express()
+// const PORT = process.env.PORT || 3001;
+// const app = express()
 
-// express middle ware
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+// // express middle ware
+// app.use(express.urlencoded({ extended: false }))
+// app.use(express.json())
 
 // Connect to the database
 const db = mysql.createConnection(
@@ -24,15 +24,21 @@ const db = mysql.createConnection(
   console.log('Connected to the employee database.')
 )
 
+db.connect(err => {
+  if (err) throw err
+  console.log('Database Connected')
+  employee()
+})
+
 var employee = function () {
-  inquirer.createPromptModule([
+  inquirer.prompt([
     {
     type: 'list',
     name: 'prompt',
     message: 'Choose Option',
     choices: ['View All Departments', 'View All Jobs', 'View All Employees', 'Add A Department', 'Add A Job', 'Add An Employee', 'Update An Employee Job', 'Log Out']
     }
-]). then((answers) => {
+]).then((answers) => {
     
     // Check the department table in the database
     if (answers.prompt === 'View All Departments') {
@@ -261,14 +267,14 @@ var employee = function () {
           }
 
           for (var i = 0; i < result.length; i++) {
-            if (result[i].title === answers.role) {
+            if (result[i].title === answers.job) {
               var job = result[i];
             }
           }
 
-          db.query(`update employee set ? where ?`, [{role_id: role}, {last_name: name}], (err, result) => {
+          db.query(`update employee set ? where ?`, [{job_id: job}, {last_name: name}], (err, result) => {
             if (err) throw err
-            console.log(`Updated ${answers.employee} role to the database.`)
+            console.log(`Updated ${answers.employee} job to the database.`)
             employee()
           })
         })
@@ -282,10 +288,10 @@ var employee = function () {
 
 
 // Default response for any other request (Not Found)
-app.use((req, res) => {
-  res.status(404).end();
-})
+// app.use((req, res) => {
+//   res.status(404).end();
+// })
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
-})
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`)
+// })

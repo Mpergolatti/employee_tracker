@@ -11,21 +11,19 @@ VALUES
 
   -- puts employees into table
 
-INSERT INTO job
+INSERT INTO job 
   (title, salary, department_id)
 
 VALUES
-  ('Executive Officer' 250000, 1),
-  ('Manager' 175000, 2),
+  ('Executive', 250000, 1),
+  ('Manager', 175000, 2),
   ('Software Engineer', 125000, 3),
   ('Accountant', 90000, 4),
   ('Salesman', 75000, 5),
-  ('Stocker' 40000, 6)
-
-  -- puts employee information into table
+  ('Stocker', 40000, 6)
 
 INSERT INTO employee
-  (first_name, last_name, role_id, department_id)
+  (first_name, last_name, job_id, department_id)
 
 VALUES
   ('Jaime', 'Buchanan', 1, 1),
